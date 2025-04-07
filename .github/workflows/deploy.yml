@@ -29,7 +29,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages publish build --project-name=cloudpass
+          command: pages publish build --project-name=cloudpass --verbose
   
   deploy-workers:
     runs-on: ubuntu-latest
@@ -42,12 +42,18 @@ jobs:
           node-version: '16'
           cache: 'npm'
       
+      - name: Install dependencies
+        run: npm ci
+        
       - name: Install Wrangler
         run: npm install -g wrangler
+      
+      - name: Debug Wrangler version
+        run: wrangler --version
       
       - name: Deploy Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: deploy workers/index.js --env production
+          command: deploy workers/index.js --env production --verbose
