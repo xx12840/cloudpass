@@ -1,6 +1,9 @@
 name = "cloudpass-api"
 main = "workers/index.js"
-compatibility_date = "2023-01-01"
+compatibility_date = "2025-04-07"
+
+# Pages configuration
+pages_build_output_dir = "build"
 
 # 绑定 R2 存储桶
 [[r2_buckets]]
@@ -14,12 +17,18 @@ PUBLIC_URL = "https://cloudpass.yourdomain.com"
 # 开发环境配置
 [env.dev]
 vars = { PUBLIC_URL = "http://localhost:8787" }
+[[env.dev.r2_buckets]]
+binding = "PASSWORDS_BUCKET"
+bucket_name = "cloudpass-passwords-dev"
 
 # 生产环境配置
 [env.production]
 vars = { PUBLIC_URL = "https://cloudpass.yourdomain.com" }
+[[env.production.r2_buckets]]
+binding = "PASSWORDS_BUCKET"
+bucket_name = "cloudpass-passwords"
 
-# 路由配置
-[routes]
+# 路由配置 - 修复为数组格式
+[[routes]]
 pattern = "cloudpass.yourdomain.com/*"
 zone_name = "yourdomain.com"
