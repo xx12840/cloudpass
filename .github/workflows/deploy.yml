@@ -24,12 +24,14 @@ jobs:
       - name: Build frontend
         run: npm run build
       
+      - name: Install Wrangler CLI
+        run: npm install -g wrangler
+      
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages publish build --project-name=cloudpass
+        run: npx wrangler pages publish build --project-name=cloudpass
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
   
   deploy-workers:
     runs-on: ubuntu-latest
@@ -45,12 +47,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Install Wrangler
+      - name: Install Wrangler CLI
         run: npm install -g wrangler
       
       - name: Deploy Workers
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: deploy workers/index.js --env production
+        run: cd workers && npx wrangler deploy index.js --env production
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
