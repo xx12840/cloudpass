@@ -12,7 +12,7 @@ bucket_name = "cloudpass-passwords"
 
 # 环境变量
 [vars]
-PUBLIC_URL = "https://cloudpass.yourdomain.com"
+PUBLIC_URL = "https://cloudpass-2xx.pages.dev"
 
 # 开发环境配置
 [env.dev]
@@ -23,12 +23,12 @@ bucket_name = "cloudpass-passwords-dev"
 
 # 生产环境配置
 [env.production]
-vars = { PUBLIC_URL = "https://cloudpass.yourdomain.com" }
+vars = { PUBLIC_URL = "https://cloudpass-2xx.pages.dev" }
 [[env.production.r2_buckets]]
 binding = "PASSWORDS_BUCKET"
 bucket_name = "cloudpass-passwords"
 
 # 路由配置 - 修复为数组格式
 [[routes]]
-pattern = "cloudpass.yourdomain.com/*"
-zone_name = "yourdomain.com"
+pattern = "cloudpass-2xx.pages.dev/*"
+zone_name = "cloudpass-2xx.pages.dev"
